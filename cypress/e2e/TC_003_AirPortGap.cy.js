@@ -4,9 +4,11 @@ describe('AirPortGap API', () => {
 		cy.request({
 			method: 'GET',
 			url: 'https://airportgap.com/api/airports'
-			
 		}).as('GeneralGET')
-		cy.get('@GeneralGET').its('status').should('equal', 200)
+		cy.get('@GeneralGET').then((response) => {
+			expect(response.status).to.equal(200)
+			expect(response.body).to.have.property('data')
+		})
 	})
 
 	it('POST fav airport', () => {
@@ -14,17 +16,18 @@ describe('AirPortGap API', () => {
 			method: 'POST',
 			url: 'https://airportgap.com/api/favorites',
 			auth: {
-				'bearer': 'DqtDtrmPmDxDTwcdYvtYdh5b'
+				'bearer': 'uUkYL2Lbc8PpJWNwo1zdaWez'
 			},
 			body: {
-				 airport_id: 'YBL',
-    			 note: 'CAMBELL RIVER AIRPORT'
+				airport_id: 'YBL',
+				note: 'CAMBELL RIVER AIRPORT'
 			}
 		}).as('PostFavAirPort')
-		cy.get('@PostFavAirPort').its('status').should('equal', 201).then((res) => {
-	
+		cy.get('@PostFavAirPort').then((response) => {
+			expect(response.status).to.equal(201)
+			expect(response.body).to.have.property('data')
+			expect(response.body.data).to.have.property('airport_id', 'YBL')
 		})
 	})
-
 
 })
