@@ -11,6 +11,21 @@ describe('AirPortGap API', () => {
 		})
 	})
 
+  it('POST generar token', () => {
+      cy.request({
+          method: 'POST',
+          url: 'https://airportgap.com/api/token',
+          body: {
+              email: 'mdelgador24@gmail.com',
+              pasword: '24148149MDer'
+          }
+      }).then((response) => {
+          expect(response.status).to.equal(200)
+          const token = response.body.token
+          cy.wrap(token).as('authToken')
+      })
+  })
+
 	it('POST fav airport', () => {
 		cy.request({
 			method: 'POST',
